@@ -1,0 +1,12 @@
+uvicorn[standard]
+gunicorn
+pydantic
+pony
+psycopg2
+python-dotenv
+pydantic[dotenv]
+fastapi
+python-multipart
+python-jose[cryptography]
+passlib[bcrypt]
+python-decouple
