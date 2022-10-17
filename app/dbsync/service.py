@@ -1,6 +1,6 @@
 from pony.orm import db_session
 from fastapi import HTTPException
-from app.dbsync.sql import SQL_ADD_ADMIN, SQL_ADD_ADMIN_CREDENTIAL, SQL_ADD_CANDIDATE, SQL_ADD_VOTER, SQL_CANDIDATES, SQL_DELETE_CANDIDATE, SQL_DELETE_VOTER, SQL_SINGLE_ADMIN_CREDENTIAL_BY_ID, SQL_SINGLE_VOTER_BY_ID, SQL_UPDATE_CANDIDATE, SQL_UPDATE_VOTER, SQL_VOTERS
+from app.dbsync.sql import SQL_ADD_ADMIN, SQL_ADD_ADMIN_CREDENTIAL, SQL_ADD_CANDIDATE, SQL_ADD_VOTER, SQL_CANDIDATES, SQL_DELETE_CANDIDATE, SQL_DELETE_VOTER, SQL_SINGLE_ADMIN_BY_ID, SQL_SINGLE_ADMIN_CREDENTIAL_BY_ID, SQL_SINGLE_VOTER_BY_ID, SQL_UPDATE_CANDIDATE, SQL_UPDATE_VOTER, SQL_VOTERS
 from app.schemas import CandidateCreate, VoterCreate
 from app.models import Candidate
 from app.db import db
@@ -10,11 +10,11 @@ from pony.orm.dbapiprovider import IntegrityError
 class CandidateService:
     @db_session
     def create_candidate(self, candidate_ob: CandidateCreate):
-        sql = SQL_ADD_CANDIDATE.format(id=candidate_ob.id,
+        sql = SQL_ADD_CANDIDATE.format(candidate_id=candidate_ob.candidate_id.upper(),
                                        first_name=candidate_ob.first_name,
                                        middle_name=candidate_ob.middle_name,
                                        last_name=candidate_ob.last_name,
-                                       post=candidate_ob.post,
+                                       post=candidate_ob.post.upper(),
                                        image=candidate_ob.image)
         try:
             db.execute(sql)
@@ -29,9 +29,9 @@ class CandidateService:
 
         candidates = []
         for row in cursor.fetchall():
-            id, first_name, middle_name, last_name, post, image = row
+            id,candidate_id, first_name, middle_name, last_name, post, image = row
             document = {
-                'id': id,
+                'candidate_id': candidate_id,
                 'first_name': first_name,
                 'middle_name': middle_name,
                 'last_name': last_name,
@@ -44,19 +44,19 @@ class CandidateService:
         return candidates
 
     @db_session
-    def delete_candidate(self, id):
-        sql = SQL_DELETE_CANDIDATE.format(id=id)
+    def delete_candidate(self, candidate_id:str):
+        sql = SQL_DELETE_CANDIDATE.format(candidate_id=candidate_id.upper())
 
         db.execute(sql)
 
     @db_session
     def update_candidate(self, candidate_ob: CandidateCreate):
         sql = SQL_UPDATE_CANDIDATE.format(
-            id=candidate_ob.id,
+            candidate_id=candidate_ob.candidate_id.upper(),
             first_name=candidate_ob.first_name,
             middle_name=candidate_ob.middle_name,
             last_name=candidate_ob.last_name,
-            post=candidate_ob.post,
+            post=candidate_ob.post.upper(),
             image=candidate_ob.image)
 
         db.execute(sql)
@@ -71,9 +71,9 @@ class VoterService:
 
         voters = []
         for row in cursor.fetchall():
-            id, first_name, middle_name, last_name, image = row
+            id,voter_id, first_name, middle_name, last_name, image = row
             document = {
-                'id': id,
+                'voter_id': voter_id,
                 'first_name': first_name,
                 'middle_name': middle_name,
                 'last_name': last_name,
@@ -85,14 +85,14 @@ class VoterService:
         return voters
 
     @db_session
-    def get_voter_by_id(self, id):
-        sql = SQL_SINGLE_VOTER_BY_ID.format(id=id)
+    def get_voter_by_id(self, voter_id):
+        sql = SQL_SINGLE_VOTER_BY_ID.format(voter_id=voter_id)
         cursor = db.execute(sql)
         voters = []
         for row in cursor.fetchall():
-            id, first_name, middle_name, last_name, image = row
+            id,voter_id, first_name, middle_name, last_name, image = row
             document = {
-                'id': id,
+                'voter_id': voter_id,
                 'first_name': first_name,
                 'middle_name': middle_name,
                 'last_name': last_name,
@@ -105,7 +105,7 @@ class VoterService:
 
     @db_session
     def create_voter(self, voter_ob: VoterCreate):
-        sql = SQL_ADD_VOTER.format(id=voter_ob.id,
+        sql = SQL_ADD_VOTER.format(voter_id=voter_ob.voter_id.upper(),
                                    first_name=voter_ob.first_name,
                                    middle_name=voter_ob.middle_name,
                                    last_name=voter_ob.last_name,
@@ -117,15 +117,15 @@ class VoterService:
                 status_code=409, detail="Voter already registered")
 
     @db_session
-    def delete_voter(self, id):
-        sql = SQL_DELETE_VOTER.format(id=id)
+    def delete_voter(self, voter_id:str):
+        sql = SQL_DELETE_VOTER.format(voter_id=voter_id.upper())
 
         db.execute(sql)
 
     @db_session
     def update_voter(self, voter_ob: VoterCreate):
         sql = SQL_UPDATE_VOTER.format(
-            id=voter_ob.id,
+            voter_id=voter_ob.voter_id.upper(),
             first_name=voter_ob.first_name,
             middle_name=voter_ob.middle_name,
             last_name=voter_ob.last_name,
@@ -149,17 +149,37 @@ class AdminService:
             print("already exist")
 
     @db_session
-    def get_admin_credential_by_id(self, id):
-        sql = SQL_SINGLE_ADMIN_CREDENTIAL_BY_ID.format(id=id)
+    def get_admin_credential_by_id(self, admin_id):
+        sql = SQL_SINGLE_ADMIN_CREDENTIAL_BY_ID.format(admin_id=admin_id)
         cursor = db.execute(sql)
         admin_credential = {}
         for row in cursor.fetchall():
-            id, password = row
+            id,admin_id, password = row
             document = {
-                'id': id,
+                'admin_id': admin_id,
                 'password': password
             }
 
             admin_credential = document
 
         return admin_credential
+    
+    @db_session
+    def get_admin_by_id(self, admin_id):
+        sql = SQL_SINGLE_ADMIN_BY_ID.format(admin_id=admin_id)
+        cursor = db.execute(sql)
+        admin = {}
+        for row in cursor.fetchall():
+            id,admin_id, first_name, middle_name, last_name, image = row
+            document = {
+                'admin_id': admin_id,
+                
+                'first_name': first_name,
+                'middle_name': middle_name,
+                'last_name': last_name,
+                'image': image
+            }
+
+            admin = document
+
+        return admin

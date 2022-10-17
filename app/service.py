@@ -6,11 +6,11 @@ admin_service = AdminService()
 
 
 def very_voter_login(login_credentials: VoterLogin):
-    id = login_credentials.id
-    single_voter = voter_service.get_voter_by_id(id)
+    voter_id = login_credentials.voter_id.upper()
+    single_voter = voter_service.get_voter_by_id(voter_id)
     if len(single_voter) != 0:
         voter = single_voter[0]
-        if voter['id'] == login_credentials.password:
+        if voter['voter_id'] == login_credentials.password.upper():
             return True
         else:
             return False
@@ -20,8 +20,8 @@ def very_voter_login(login_credentials: VoterLogin):
 
 def very_admin_login(login_credentials: AdminLogin):
     print(login_credentials)
-    id = login_credentials.id
-    admin = admin_service.get_admin_credential_by_id(id)
+    admin_id = login_credentials.admin_id
+    admin = admin_service.get_admin_credential_by_id(admin_id)
     print(admin)
     if admin:
         if admin['password'] == login_credentials.password:

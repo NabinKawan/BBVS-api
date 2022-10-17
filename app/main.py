@@ -14,12 +14,8 @@ from starlette.responses import RedirectResponse
 from app.routers import admin, candidates, file, login, voters
 from app.db import init_local_db
 
-from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-
-origins = [
-    "http://localhost:3000/",
-]
 
 # # Package # #
 
@@ -28,6 +24,16 @@ init_local_db()
 
 app = FastAPI(
     title="BBVS api"
+)
+
+origins = ['http://localhost:3000']
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # creating different application for '/static'
@@ -40,17 +46,12 @@ app.mount('/static', StaticFiles(directory='static'))
 
 app.include_router(candidates.router)
 app.include_router(voters.router)
+app.include_router(admin.router)
 app.include_router(file.router)
 app.include_router(login.router)
-app.include_router(admin.router)
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+
+
 
 
 # def run():

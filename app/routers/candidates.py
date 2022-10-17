@@ -4,7 +4,7 @@ import app.dbsync.service as service
 from app.schemas import CandidateCreate
 
 router = APIRouter(prefix="/api/candidates",
-                   tags=["Candidates"], dependencies=[Depends(JWTBearer())])
+                   tags=["Candidates"],dependencies=[Depends(JWTBearer())])
 
 candidate_service = service.CandidateService()
 
@@ -35,6 +35,6 @@ def update_candidate(candidate_ob: CandidateCreate):
     candidate_service.update_candidate(candidate_ob=candidate_ob)
 
 
-@router.delete("/deleteCandidate/{id}")
-def delete_candidate(id: str):
-    candidate_service.delete_candidate(id=id)
+@router.delete("/deleteCandidate/{candidate_id}")
+def delete_candidate(candidate_id: str):
+    candidate_service.delete_candidate(candidate_id=candidate_id)

@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 
 class CandidateBase(BaseModel):
-    id: str
+    candidate_id: str
     first_name: str
     middle_name: str
     last_name: str
@@ -25,7 +25,7 @@ class CandidateRead(CandidateBase):
 
 
 class VoterBase(BaseModel):
-    id: str
+    voter_id: str
     first_name: str
     middle_name: str
     last_name: str
@@ -39,12 +39,12 @@ class VoterCreate(VoterBase):
 
 
 class VoterLogin(BaseModel):
-    id: str
+    voter_id: str
     password: str
 
 
 # Admin
 
 class AdminLogin(BaseModel):
-    id: str
+    admin_id: str
     password: str

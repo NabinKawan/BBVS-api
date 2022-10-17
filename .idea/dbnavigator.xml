@@ -29,7 +29,7 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="1179e4f0-e457-4215-864b-7a47b71e82ed">
-      <console name="local_db" type="STANDARD" schema="main" session="Main"><![CDATA[select  * from "AdminCredential"]]></console>
+      <console name="local_db" type="STANDARD" schema="main" session="Main"><![CDATA[commit]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">

@@ -9,7 +9,7 @@ router = APIRouter(prefix="/api/login", tags=['Login'])
 @router.post('')
 def voter_login(login_credentials: VoterLogin):
     if very_voter_login(login_credentials):
-        return sign_jwt(login_credentials.id)
+        return sign_jwt(login_credentials.voter_id.upper())
     else:
         raise HTTPException(
             status_code=401, detail="Invalid credentials")
@@ -18,7 +18,7 @@ def voter_login(login_credentials: VoterLogin):
 @router.post('/adminLogin')
 def admin_login(login_credentials: AdminLogin):
     if very_admin_login(login_credentials):
-        return sign_jwt(login_credentials.id, end_time_ms=7*24*60*60*1000)
+        return sign_jwt(login_credentials.admin_id, end_time_ms=7*24*60*60*1000)
     else:
         raise HTTPException(
             status_code=401, detail="Invalid credentials")

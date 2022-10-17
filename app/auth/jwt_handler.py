@@ -11,8 +11,9 @@ print(JWT_ALGORITHM)
 # returns generated token
 
 
-def generate_token_response(token: str):
+def generate_token_response(user_id: str, token: str):
     return {
+        'user_id': user_id,
         'access_token': token
     }
 
@@ -26,7 +27,7 @@ def sign_jwt(user_id: str, end_time_ms=5*60*1000):
         "expiry": time.time() + end_time_ms
     }
     token = jwt.encode(payload, JWT_SECRET, JWT_ALGORITHM)
-    return generate_token_response(token)
+    return generate_token_response(user_id, token)
 
 
 def decode_jwt(token: str):

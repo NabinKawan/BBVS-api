@@ -5,7 +5,7 @@ from app.schemas import VoterCreate
 
 
 router = APIRouter(prefix="/api/voters",
-                   tags=["Voters"], dependencies=[Depends(JWTBearer())])
+                   tags=["Voters"],dependencies=[Depends(JWTBearer())])
 
 voter_service = service.VoterService()
 
@@ -24,9 +24,9 @@ def get_all_voters():
     return response
 
 
-@router.get("/{id}")
-def get_voter_by_id(id: str):
-    single_voter = voter_service.get_voter_by_id(id)
+@router.get("/{voter_id}")
+def get_voter_by_id(voter_id: str):
+    single_voter = voter_service.get_voter_by_id(voter_id.upper())
     response = generate_voter_response(single_voter)
     return response
 
@@ -41,6 +41,6 @@ def update_voter(voter_ob: VoterCreate):
     voter_service.update_voter(voter_ob=voter_ob)
 
 
-@router.delete("/deleteVoter/{id}")
-def delete_voter(id: str):
-    voter_service.delete_voter(id=id)
+@router.delete("/deleteVoter/{voter_id}")
+def delete_voter(voter_id: str):
+    voter_service.delete_voter(voter_id)

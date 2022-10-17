@@ -5,7 +5,7 @@ from app.settings import api_settings
 import secrets
 
 router = APIRouter(prefix='/api/file',
-                   tags=['File'], dependencies=[Depends(JWTBearer())])
+                   tags=['File'],dependencies=[Depends(JWTBearer())])
 
 
 @router.post('/uploadImage')
@@ -27,4 +27,5 @@ async def upload_image(file: UploadFile):
         with open(FILEPATH, 'wb') as filePointer:
             filePointer.write(file_content)
         file.close()
-        return FILEPATH
+        url = f"localhost:5000/{FILEPATH}"
+        return url
