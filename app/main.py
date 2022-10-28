@@ -39,9 +39,9 @@ app.add_middleware(
 # creating different application for '/static'
 app.mount('/static', StaticFiles(directory='static'))
 
-@app.get("/", tags=['Dev'])
-async def get_root():
-    return RedirectResponse("/docs")
+@app.get("/", name="root", tags=["Root"])
+async def root():
+    return {"message": f"Welcome to BBVS API {app.version}"}
 
 
 app.include_router(candidates.router)
