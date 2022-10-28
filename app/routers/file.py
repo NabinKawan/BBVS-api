@@ -1,8 +1,9 @@
-import imp
+import os
 from fastapi import APIRouter, UploadFile, HTTPException, Depends
 from app.auth.jwt_bearer import JWTBearer
 from app.settings import api_settings
 import secrets
+
 
 router = APIRouter(prefix='/api/file',
                    tags=['File'],dependencies=[Depends(JWTBearer())])
@@ -27,5 +28,5 @@ async def upload_image(file: UploadFile):
         with open(FILEPATH, 'wb') as filePointer:
             filePointer.write(file_content)
         file.close()
-        url = f"localhost:5000/{FILEPATH}"
+        url = f"{os.environ['API_URL']}{FILEPATH}"
         return url
