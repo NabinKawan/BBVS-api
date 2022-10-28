@@ -39,9 +39,9 @@ app.add_middleware(
 # creating different application for '/static'
 app.mount('/static', StaticFiles(directory='static'))
 
-# @app.get("/", tags=['Dev'])
-# async def get_root():
-#     return RedirectResponse("/docs")
+@app.get("/", tags=['Dev'])
+async def get_root():
+    return RedirectResponse("/docs")
 
 
 app.include_router(candidates.router)
