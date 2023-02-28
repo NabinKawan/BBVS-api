@@ -43,4 +43,5 @@ def update_voter(voter_ob: VoterCreate):
 
 @router.delete("/deleteVoter/{voter_id}")
 def delete_voter(voter_id: str):
+    print(voter_id)
     voter_service.delete_voter(voter_id)
