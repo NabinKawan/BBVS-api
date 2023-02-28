@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 # candidate
 
 
@@ -10,6 +11,7 @@ class CandidateBase(BaseModel):
     last_name: str
     post: str
     image: str
+    logo: str
     # class Config:
     #     orm_mode=True
 
@@ -20,6 +22,7 @@ class CandidateCreate(CandidateBase):
 
 class CandidateRead(CandidateBase):
     pass
+
 
 # voter
 

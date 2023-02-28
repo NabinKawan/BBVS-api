@@ -3,8 +3,8 @@ select * from "Candidate" order by id desc
 """
 
 SQL_ADD_CANDIDATE = """
-INSERT INTO "Candidate" (candidate_id,first_name,middle_name,last_name,post,image)
-VALUES ('{candidate_id}','{first_name}','{middle_name}','{last_name}','{post}','{image}');
+INSERT INTO "Candidate" (candidate_id,first_name,middle_name,last_name,post,image,logo)
+VALUES ('{candidate_id}','{first_name}','{middle_name}','{last_name}','{post}','{image}','{logo}');
 """
 
 SQL_DELETE_CANDIDATE = """
@@ -13,7 +13,7 @@ delete from "Candidate" where candidate_id='{candidate_id}'
 
 SQL_UPDATE_CANDIDATE = """
 update "Candidate" 
-set first_name='{first_name}', middle_name='{middle_name}', last_name='{last_name}', post='{post}', image='{image}'
+set first_name='{first_name}', middle_name='{middle_name}', last_name='{last_name}', post='{post}', image='{image}', logo='{logo}'
 where candidate_id='{candidate_id}'
 """
 
