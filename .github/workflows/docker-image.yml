@@ -16,19 +16,8 @@ jobs:
       id: vars
       run: echo ::set-output name=tag::$(echo dev)
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag git.sireto.io:5050/cnftregistry/cnftregistry-api-py:${{steps.vars.outputs.tag}}
-    - name: Login to Sireto docker registry
-      run: docker login -u ${{secrets.CI_REGISTRY_USER}} -p ${{secrets.CI_REGISTRY_PASSWORD}} ${{secrets.CI_REGISTRY}}
-    - name: Push to Sireto registry
-      run: docker push git.sireto.io:5050/cnftregistry/cnftregistry-api-py:${{steps.vars.outputs.tag}}
-    - name: Deploy new docker image
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.DEPLOY_HOST }}
-        username: ${{ secrets.DEPLOY_USERNAME }}
-        key: ${{ secrets.CICD_SSH_KEY }}
-        port: ${{ secrets.DEPLOY_PORT }}
-        script: |
-          cd ~/dev-cnftregistry-api-py/
-          docker-compose pull
-          docker-compose up -d
+      run: docker build -t ${{ vars.CI_REGISTRY_IMAGE }}:$GITHUB_SHA -t ${{ vars.CI_REGISTRY_IMAGE }}:latest .
+    - run: docker login -u ${{ vars.CI_REGISTRY_USER }} -p ${{ vars.CI_REGISTRY_PASSWORD }} ${{ vars.CI_REGISTRY }}
+    - run: docker push ${{ vars.CI_REGISTRY_IMAGE }}:$GITHUB_SHA
+    - run: docker push ${{ vars.CI_REGISTRY_IMAGE }}:latest
+    
