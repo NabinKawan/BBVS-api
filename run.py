@@ -6,7 +6,7 @@ from app.settings import api_settings
 def run():
     """Run the API using Uvicorn"""
     uvicorn.run(
-        'app.main:app',
+        'main:app',
         port=api_settings.port,
         host=api_settings.host,
         reload=True,
