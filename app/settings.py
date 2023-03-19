@@ -15,9 +15,13 @@ class APISettings(BaseSettings):
     title: str = "BBVS API"
     host: str = "localhost"
     port: int = 5000
+    jwt_secret: str
+    jwt_algorithm: str
+    url: str = "http://localhost:5000/"
 
     class Config(BaseSettings.Config):
         env_prefix = "API_"
+
 
 # class DBSettings(BaseSettings):
 #     provider:str

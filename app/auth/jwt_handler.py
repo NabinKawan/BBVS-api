@@ -1,9 +1,10 @@
 import time
 from decouple import config
 from jose import jwt
+from app.settings import api_settings
 
-JWT_SECRET = '68f47a2ceab553363e07'
-JWT_ALGORITHM = "HS256"
+JWT_SECRET = api_settings.jwt_secret
+JWT_ALGORITHM = api_settings.jwt_algorithm
 
 
 # returns generated token

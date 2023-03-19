@@ -4,9 +4,8 @@ from app.auth.jwt_bearer import JWTBearer
 from app.settings import api_settings
 import secrets
 
-
 router = APIRouter(prefix='/api/file',
-                   tags=['File'],dependencies=[Depends(JWTBearer())])
+                   tags=['File'], dependencies=[Depends(JWTBearer())])
 
 
 @router.post('/uploadImage')
@@ -28,5 +27,5 @@ async def upload_image(file: UploadFile):
         with open(FILEPATH, 'wb') as filePointer:
             filePointer.write(file_content)
         file.close()
-        url = f"{os.environ['API_URL']}{FILEPATH}"
+        url = f"{api_settings.url}{FILEPATH}"
         return url
