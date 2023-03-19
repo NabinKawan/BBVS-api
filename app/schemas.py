@@ -51,3 +51,4 @@ class VoterLogin(BaseModel):
 class AdminLogin(BaseModel):
     admin_id: str
     password: str
+

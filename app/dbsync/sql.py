@@ -47,10 +47,22 @@ select * from "Admin" where admin_id='{admin_id}'
 
 SQL_ADD_ADMIN = """
 INSERT INTO "Admin" (admin_id,first_name,middle_name,last_name,image)
-VALUES ('admin','Nabin','','Kawan','localhost:5000/static/images/d07907be811379588986.jpeg');
+VALUES ('admin','BBVS','','Admin','localhost:5000/static/images/d07907be811379588986.jpeg');
+"""
+
+SQL_UPDATE_ADMIN = """
+update "Admin" 
+set first_name='BBVS', middle_name='', last_name='Admin',image='localhost:5000/static/images/d07907be811379588986.jpeg'
+where admin_id='admin'
 """
 
 SQL_ADD_ADMIN_CREDENTIAL = """
 INSERT INTO "AdminCredential" (admin_id,password)
-VALUES ('admin','admin');
+VALUES ('admin','Garo@123');
+"""
+
+SQL_UPDATE_ADMIN = """
+update "Admin" 
+set first_name='BBVS', middle_name='', last_name='Admin',image='localhost:5000/static/images/d07907be811379588986.jpeg'
+where admin_id='admin'
 """

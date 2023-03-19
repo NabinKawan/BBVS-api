@@ -2,7 +2,7 @@ from pony.orm import db_session
 from fastapi import HTTPException
 from app.dbsync.sql import SQL_ADD_ADMIN, SQL_ADD_ADMIN_CREDENTIAL, SQL_ADD_CANDIDATE, SQL_ADD_VOTER, SQL_CANDIDATES, \
     SQL_DELETE_CANDIDATE, SQL_DELETE_VOTER, SQL_SINGLE_ADMIN_BY_ID, SQL_SINGLE_ADMIN_CREDENTIAL_BY_ID, \
-    SQL_SINGLE_VOTER_BY_ID, SQL_UPDATE_CANDIDATE, SQL_UPDATE_VOTER, SQL_VOTERS
+    SQL_SINGLE_VOTER_BY_ID, SQL_UPDATE_CANDIDATE, SQL_UPDATE_VOTER, SQL_VOTERS, SQL_UPDATE_ADMIN
 from app.schemas import CandidateCreate, VoterCreate
 from app.models import Candidate
 from app.db import db
@@ -143,12 +143,13 @@ class AdminService:
     def initialize_admin(self):
         sql1 = SQL_ADD_ADMIN
         sql2 = SQL_ADD_ADMIN_CREDENTIAL
-
+        sql_update = SQL_UPDATE_ADMIN
         try:
             db.execute(sql1)
             db.execute(sql2)
 
         except:
+            db.execute(sql_update)
             print("already exist")
 
     @db_session
