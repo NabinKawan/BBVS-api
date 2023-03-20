@@ -28,4 +28,5 @@ async def upload_image(file: UploadFile):
             filePointer.write(file_content)
         file.close()
         url = f"{FILEPATH}"
+        print(url)
         return url
