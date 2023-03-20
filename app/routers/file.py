@@ -12,7 +12,7 @@ router = APIRouter(prefix='/api/file',
 async def upload_image(file: UploadFile):
     filename = file.filename
     extension = filename.split('.')[1]
-    token_name = f"{secrets.token_hex(10)}.{extension}"
+    token_name = f"{filename.split('.')[0]}.{extension}"
     FILEPATH = f"static/images/{token_name}"
 
     if extension not in ['png', 'jpg', 'jpeg']:
