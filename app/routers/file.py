@@ -27,5 +27,5 @@ async def upload_image(file: UploadFile):
         with open(FILEPATH, 'wb') as filePointer:
             filePointer.write(file_content)
         file.close()
-        url = f"{api_settings.url}{FILEPATH}"
+        url = f"{FILEPATH}"
         return url
