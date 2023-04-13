@@ -1,5 +1,7 @@
 # BBVS-API
 
+![image](https://user-images.githubusercontent.com/43606623/231670854-9fda291e-4bca-4d2d-b52c-00be7df7e297.png)
+
 ## Project Description
 
 - API for BBVS ( Blockchain Based Voting System )
